@@ -6,6 +6,6 @@
 
   "test": {
     "driver": "sqlite3",
-    "filename": ":memory:"
+    "filename": "./db/test.db"
   }
 }

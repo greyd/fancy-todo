@@ -17,9 +17,9 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db, next) {
   db.createTable('todos', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    parentId: { type: 'int' },
-    name: 'string',
-    done: {type: 'boolean', defaultValue: false}
+    parentId: { type: 'int', defaultValue: false },
+    name: {type: 'string', unique: true},
+    done: {type: 'boolean', defaultValue: 'FALSE'}
   }, next);
 };
 

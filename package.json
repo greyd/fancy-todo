@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node ./server/src/index.js",
     "test": "./node_modules/.bin/mocha --ui bdd --reporter spec --recursive ./server/spec/",
-    "test-watcher": "npm run test -- --watch"
+    "test-watcher": "npm run test -- --watch",
+    "migrate-up": "db-migrate up",
+    "migrate-down": "db-migrate down"
   },
   "repository": {
     "type": "git",

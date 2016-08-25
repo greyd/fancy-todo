@@ -1,6 +1,5 @@
 'use strict';
 
-var expect = require('chai').expect;
 var _ = require('lodash');
 var app = require('../src/app');
 var request = require('supertest');

@@ -1,8 +1,10 @@
 'use strict';
-var path = require('path');
 var sqlite3 = require('sqlite3').verbose();
-var file = "./db/dev.db";
 
-console.log(path.resolve(file));
-var db = new sqlite3.Database(file);
+var db;
+if (process.env.NODE_ENV === 'test') {
+    db = new sqlite3.Database('./db/test.db');
+} else {
+    db = new sqlite3.Database('./db/dev.db');
+}
 module.exports = db;

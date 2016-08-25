@@ -9,5 +9,13 @@ router.get('/', function (req, res) {
         res.json(data)
     })
 });
+router.get('/:name', function (req, res, next) {
+    todo
+        .create(req.params.name)
+        .then(function (data) {
+            res.json(data)
+        })
+        .catch(next)
+});
 
 module.exports = router;
