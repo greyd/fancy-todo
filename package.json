@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./server/src/index.js",
+    "test": "./node_modules/.bin/mocha --ui bdd --reporter spec --recursive ./server/spec/",
+    "test-watcher": "npm run test -- --watch"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,15 @@
   },
   "homepage": "https://github.com/greyd/fancy-todo#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "db-migrate": "^0.10.0-beta.15",
+    "db-migrate-sqlite3": "^0.1.9",
+    "express": "^4.14.0",
+    "lodash": "^4.15.0",
+    "sqlite3": "^3.1.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2",
+    "supertest": "^2.0.0"
   }
 }
