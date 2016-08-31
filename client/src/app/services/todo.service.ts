@@ -1,7 +1,11 @@
-import { Http } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
+import { Observable } from "rxjs";
 
+const URL = '/v1/todo/';
+const HEADERS = new Headers({ 'Content-Type': 'application/json' });
+const OPTIONS = new RequestOptions({headers: HEADERS});
 export class Todo {
   constructor(
     public id: number,
@@ -11,25 +15,35 @@ export class Todo {
     public time: number
   ) {}
 }
-export enum TodoFilterEnum { All, Done, Undone };
-const TODOS = [
-  new Todo(1, false, 'test1', '', +new Date()),
-  new Todo(2, true, 'test2', '', +new Date()),
-  new Todo(3, false, 'test3', '', +new Date()),
-  new Todo(4, true, 'test4', '', +new Date())
-];
+export enum TodoFilterEnum { All, Done, Undone }
 
 @Injectable()
 export class TodoService {
   constructor (private http: Http) {}
 
-  public getToDo(): Todo[] {
-    return TODOS;
+  getTodo(): Observable<Todo[]> {
+    return this.http
+      .get(URL)
+      .map(extractData)
+      .catch(handleError)
   }
+  create(text:string): Observable<Todo> {
+    return this.http
+      .post(URL, JSON.stringify({text}), OPTIONS)
+      .map(extractData)
+      .catch(handleError)
+  }
+  remove(id:number): Observable {
+    return this.http.delete(URL + id);
+  }
+}
 
-  // public getToDo(): Promise<Todo[]> {
-  //   return this.http.get('/v1/todo/')
-  //     .toPromise()
-  //     .then(resp => resp.json() as Todo[]);
-  // }
+function extractData (res:Response) {
+  return res.json() || {};
+}
+function handleError (error:any) {
+  let errMsg = (error.message) ? error.message :
+    error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+  console.error(errMsg); // log to console instead
+  return Observable.throw(errMsg)
 }

@@ -24,7 +24,7 @@ function noData(res) {
     return () => res.status(204).end();
 }
 function created(res) {
-    return () => res.status(201).end();
+    return (data) => res.status(201).json(data);
 }
 function sendJSON(res) {
     return data => res.json(data);

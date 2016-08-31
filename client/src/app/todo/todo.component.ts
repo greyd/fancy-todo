@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService, Todo, TodoFilterEnum } from './../services/todo.service';
 import { AddItemComponent } from './add-item/add-item.component';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'todo',
@@ -18,13 +19,30 @@ export class TodoComponent implements OnInit {
   constructor (private todoService: TodoService) {}
 
   ngOnInit(): void {
-    this.todos = this.todoService.getToDo();
+    this.todoService
+      .getTodo()
+      .subscribe(
+        list => this.todos = list
+      )
   }
-  addItem(name:string): void {
-    this.todos.push(new Todo(null, false, name, '', +new Date()))
+  addItem(text:string): void {
+    this.todoService
+      .create(text)
+      .subscribe(
+        item => {
+          let newItem = new Todo(item.id, item.isDone, item.text, item.description, item.time);
+          this.todos.push(newItem);
+        }
+      )
   }
-  removeItem(item:Todo) {
-    this.todos = this.todos.filter(todo => todo !== item);
+  removeItem(item:Todo): void {
+    this.todoService
+      .remove(item.id)
+      .subscribe(
+        done => {
+          this.todos = this.todos.filter(todo => todo !== item);
+        }
+      );
   }
   isUnique():boolean {
     return this.todos.filter(todo => todo.text === this.todoItem).length === 0;

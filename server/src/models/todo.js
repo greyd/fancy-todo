@@ -17,7 +17,7 @@ function clear () {
     return execSimpleQuery('DELETE FROM todos');
 }
 
-function create (text, parentId) {
+function create (text) {
     return new Promise((resolve, reject) => {
         db.run('INSERT INTO todos (text) VALUES ("' + text + '")', function (err) {
             if (err) return reject(err);
