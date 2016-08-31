@@ -1,0 +1,5 @@
+<form class="add-item">
+  TEST
+  <input name="todoItem" type="text" [(ngModel)]="todoItem" (keyup.enter)="add(todoItem)" />
+  <button type="button" (click)="add(todoItem)">Submit</button>
+</form>

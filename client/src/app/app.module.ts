@@ -6,7 +6,7 @@ import { HttpModule }     from '@angular/http';
 
 import { HeroDetailComponent } from './heroes/hero-details.component';
 import { TodoComponent } from './todo/todo.component';
-import { TodoService } from './todo/todo.service';
+import { TodoService } from './services/todo.service';
 
 @NgModule({
   imports: [

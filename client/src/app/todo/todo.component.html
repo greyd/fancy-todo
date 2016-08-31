@@ -1,3 +1,15 @@
+<add-item [todoItem]="todoItem" (addItem)="addItem($event)"></add-item>
+Items count: {{getFilteredItems().length}}
+<div class="filters">
+  <button [ngClass]="{active: filter === filters.All}" (click)="setFilter(filters.All)">All</button>
+  <button [ngClass]="{active: filter === filters.Done}" (click)="setFilter(filters.Done)">Done</button>
+  <button [ngClass]="{active: filter === filters.Undone}" (click)="setFilter(filters.Undone)">Undone</button>
+</div>
 <ul>
-  <li *ngFor="let todo of todos">{{todo.name}}</li>
+  <li *ngFor="let todo of getFilteredItems()">
+    <input type="checkbox" [checked]="todo.isDone" (click)="markSelected(todo)">
+    {{todo.text}}
+    <a href="#" (click)="removeItem(todo)">X</a>
+  </li>
 </ul>
+<add-item [todoItem]="todoItem" (addItem)="addItem($event)"></add-item>

@@ -4,18 +4,26 @@ var express = require('express');
 var router = express.Router();
 var todo = require('../../../models/todo');
 
-router.get('/', function (req, res) {
-    todo.getAll().then(function (data) {
-        res.json(data)
-    })
-});
-router.get('/:name', function (req, res, next) {
-    todo
-        .create(req.params.name)
-        .then(function (data) {
-            res.json(data)
-        })
-        .catch(next)
-});
+router.get('/', (req, res, next) =>
+    todo.getAll()
+        .then(sendJSON(res), next));
+
+router.post('/', (req, res, next) =>
+    todo.create(req.body.text)
+        .then(created(res), next));
+
+router.delete('/', (req, res, next) =>
+    todo.clear()
+        .then(noData(res), next));
+
+function noData(res) {
+    return () => res.status(204).end();
+}
+function created(res) {
+    return () => res.status(201).end();
+}
+function sendJSON(res) {
+    return data => res.json(data);
+}
 
 module.exports = router;

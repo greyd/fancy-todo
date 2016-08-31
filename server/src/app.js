@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 var staticFilesOptions = {
     dotfiles: 'ignore',
@@ -6,15 +7,15 @@ var staticFilesOptions = {
     extensions: ['htm', 'html'],
     //index: false,
     maxAge: '1d',
-    redirect: false,
-    setHeaders: function (res, path, stat) {
-        res.set('x-timestamp', Date.now());
-    }
-}
+    redirect: false
+};
 var path = require('path');
 console.log(path.resolve(__dirname, '../../client/dist'));
 var v1Router = require('./routers/v1/');
 app.use(express.static(path.resolve(__dirname, '../../client/dist'), staticFilesOptions));
+
+// parse application/json
+app.use(bodyParser.json());
 
 app.use('/v1/', v1Router);
 
