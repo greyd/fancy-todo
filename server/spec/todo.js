@@ -1,25 +1,25 @@
 'use strict';
 
-var _ = require('lodash');
-var app = require('../src/app');
-var request = require('supertest');
-var expect = require('chai').expect;
-var application = request(app);
+//const _ = require('lodash');
+const app = require('../src/app');
+const request = require('supertest');
+const expect = require('chai').expect;
+const application = request(app);
+
+const URL = '/v1/todo/';
 
 describe('ToDo API', () => {
     before(done => {
-        application.delete('/v1/todo/').end(done)
+        application.delete(URL).end(done)
     });
 
     describe('Get todo list', () => {
         it('should return empty list of tasks', done => {
             application
-                .get('/v1/todo/')
+                .get(URL)
                 .expect('Content-Type', /json/)
                 .expect(200)
-                .expect(res => {
-                    if (res.body.length !== 0) throw Error('list should be empty');
-                })
+                .expect(res => expect(res.body.length).to.equal(0))
                 .end(done)
         });
     });
@@ -27,14 +27,14 @@ describe('ToDo API', () => {
     describe('Create a new item', () => {
         it('should add an item to the list', done => {
             application
-                .post('/v1/todo/')
+                .post(URL)
                 .send({text:'text'})
                 .expect(201, done)
         });
 
         it('item should have a correct text', done => {
             application
-                .get('/v1/todo/')
+                .get(URL)
                 .expect(200)
                 .expect(res => expect(res.body.length).to.equal(1))
                 .end(done);
@@ -42,10 +42,29 @@ describe('ToDo API', () => {
 
         it('should return an error if we try to add item with the same name', done => {
             application
-                .post('/v1/todo/')
+                .post(URL)
                 .send({text: 'text'})
                 .expect('Content-Type', /html/)
                 .expect(500, done);
         });
-    })
+    });
+
+    describe('Remove single item', () => {
+        before(done => {
+            application
+                .post(URL)
+                .send({text:'text'})
+                .end(done)
+        });
+        it('should remove items form the list', () =>
+            application
+                .get(URL)
+                .then(res =>
+                    application
+                        .delete(URL + res.body[0].id)
+                        .expect(204)
+                )
+
+        );
+    });
 });

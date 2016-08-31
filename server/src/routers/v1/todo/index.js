@@ -16,6 +16,10 @@ router.delete('/', (req, res, next) =>
     todo.clear()
         .then(noData(res), next));
 
+router.delete('/:id', (req, res, next) =>
+    todo.remove(req.params.id)
+        .then(noData(res), next));
+
 function noData(res) {
     return () => res.status(204).end();
 }

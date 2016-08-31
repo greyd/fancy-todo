@@ -5,7 +5,8 @@ var db = require('./db');
 module.exports = {
     getAll: getAllTodos,
     create,
-    clear
+    clear,
+    remove
 };
 
 function getAllTodos () {
@@ -25,6 +26,14 @@ function create (text, parentId) {
                 return resolve(data);
             })
         });
+    })
+}
+function remove(id) {
+    return new Promise((resolve, reject) => {
+        db.run('DELETE FROM todos WHERE id="' + id + '"', (err, data) => {
+            if (err) return reject(err);
+            return resolve(data);
+        })
     })
 }
 
