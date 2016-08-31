@@ -16,6 +16,10 @@ router.delete('/', (req, res, next) =>
     user.clear()
         .then(noData(res), next));
 
+router.get('/name/:name', (req, res, next) =>
+    user.getByLogin(req.params.name)
+        .then(sendJSON(res), next));
+
 // router.delete('/:id', (req, res, next) =>
 //     todo.remove(req.params.id)
 //         .then(noData(res), next));

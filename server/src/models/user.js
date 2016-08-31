@@ -6,7 +6,8 @@ const passwdUtils = require('../../tools/password');
 module.exports = {
     clear,
     getAll,
-    create
+    create,
+    getByLogin
 };
 
 function create (login, password) {
@@ -26,6 +27,9 @@ function getAll () {
 }
 function clear () {
     return execSimpleQuery('DELETE FROM users');
+}
+function getByLogin (login) {
+    return execSimpleQuery('SELECT id, login FROM users WHERE login="' + login +'"', 'get');
 }
 
 // function getAllTodos () {
