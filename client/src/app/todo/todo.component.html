@@ -1,6 +1,6 @@
 <add-item [todoItem]="todoItem" (addItem)="addItem($event)"></add-item>
 Items count: {{getFilteredItems().length}}
-<div class="filters" *ngIf="getFilteredItems().length > 0">
+<div class="filters">
   <button [ngClass]="{active: filter === filters.All}" (click)="setFilter(filters.All)">All</button>
   <button [ngClass]="{active: filter === filters.Done}" (click)="setFilter(filters.Done)">Done</button>
   <button [ngClass]="{active: filter === filters.Undone}" (click)="setFilter(filters.Undone)">Undone</button>

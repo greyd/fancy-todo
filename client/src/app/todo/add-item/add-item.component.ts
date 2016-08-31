@@ -14,5 +14,6 @@ export class AddItemComponent {
 
   add(text:string):void {
     this.addItem.emit(text);
+    this.todoItem = '';
   }
 }
