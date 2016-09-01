@@ -6,14 +6,14 @@ var SQLiteStore = require('connect-sqlite3')(session);
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var expressValidator = require('express-validator')
+var expressValidator = require('express-validator');
 var userModel = require('./models/user');
 
 var app = express();
 var staticFilesOptions = {
     dotfiles: 'ignore',
     etag: false,
-    extensions: ['htm', 'html'],
+    //extensions: ['htm', 'html'],
     index: false,
     maxAge: '1d',
     redirect: false
