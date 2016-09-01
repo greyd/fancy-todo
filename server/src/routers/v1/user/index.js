@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
 var user = require('../../../models/user');
 
@@ -19,6 +20,10 @@ router.delete('/', (req, res, next) =>
 router.get('/name/:name', (req, res, next) =>
     user.getByLogin(req.params.name)
         .then(sendJSON(res), next));
+
+router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res, next) =>
+    res.redirect('/')
+);
 
 // router.delete('/:id', (req, res, next) =>
 //     todo.remove(req.params.id)

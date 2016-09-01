@@ -1,18 +1,21 @@
 'use strict';
 
-var db = require('./db');
+const _ = require('lodash');
+const db = require('./db');
 const passwdUtils = require('../../tools/password');
 
 module.exports = {
     clear,
     getAll,
     create,
+    isValid,
+    getById,
     getByLogin
 };
 
 function create (login, password) {
     return new Promise((resolve, reject) => {
-        db.run('INSERT INTO users (login, password) VALUES ("' + login + '", "' + passwdUtils.hash(password) + '")', function (err) {
+        db.run('INSERT INTO users (login, password) VALUES (?, ?)', login, passwdUtils.hash(password), err => {
             if (err) return reject(err);
             db.get('SELECT id, login FROM users WHERE login="' + login + '"', (error, data) => {
                 if (error) return reject(error);
@@ -23,13 +26,20 @@ function create (login, password) {
 }
 
 function getAll () {
-    return execSimpleQuery('SELECT id, login FROM users', 'all');
+    return execQuery('SELECT id, login FROM users', 'all');
 }
 function clear () {
-    return execSimpleQuery('DELETE FROM users');
+    return execQuery('DELETE FROM users');
 }
 function getByLogin (login) {
-    return execSimpleQuery('SELECT id, login FROM users WHERE login="' + login +'"', 'get');
+    return execQuery('SELECT id, login FROM users WHERE login=?', login, 'get');
+}
+function getById (id) {
+    return execQuery('SELECT id, login FROM users WHERE id=?', id, 'get');
+}
+function isValid (login, password) {
+    return execQuery('SELECT * FROM users WHERE login=?', login, 'get')
+        .then(user => passwdUtils.validate(user.password, password) ? Promise.resolve(_.omit(user, 'password')) : Promise.reject(false));
 }
 
 // function getAllTodos () {
@@ -60,11 +70,19 @@ function getByLogin (login) {
 //     })
 // }
 
-function execSimpleQuery (query, method='run') {
+function execQuery (query, method='run') {
+    const args = _.toArray(arguments);
+
+    if (args.length < 3) {
+        return new Promise((resolve, reject) => {
+            const cb = (err, data) => err ? reject(err) : resolve(data);
+            db[method](query, cb)
+        });
+    }
+    method = args.pop();
     return new Promise((resolve, reject) => {
-        db[method](query, (err, data) => {
-            if (err) return reject(err);
-            return resolve(data);
-        })
-    })
+        const cb = (err, data) => err ? reject(err) : resolve(data);
+        db[method].apply(db, args.concat(cb));
+    });
+
 }

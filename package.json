@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./server/src/index.js",
+    "watch": "supervisor -w ./server ./server/src/index.js",
     "test": "npm run migrate-up-test && NODE_ENV=test mocha --ui bdd --reporter spec --recursive ./server/spec/",
     "test-watcher": "npm run test -- --watch",
     "migrate-up-dev": "db-migrate up --env=dev",
@@ -24,10 +25,14 @@
   "homepage": "https://github.com/greyd/fancy-todo#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "connect-sqlite3": "^0.9.8",
+    "cookie-parser": "^1.4.3",
     "db-migrate": "^0.10.0-beta.15",
     "db-migrate-sqlite3": "^0.1.9",
     "express": "^4.14.0",
     "express-react-views": "^0.10.2",
+    "express-session": "^1.14.1",
+    "express-validator": "^2.20.8",
     "lodash": "^4.15.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
@@ -38,6 +43,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.0.2",
-    "supertest": "^2.0.0"
+    "supertest": "^2.0.0",
+    "supervisor": "^0.11.0"
   }
 }
