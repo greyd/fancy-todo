@@ -7,17 +7,23 @@ import { HttpModule }     from '@angular/http';
 import { TodoComponent } from './todo/todo.component';
 import { TodoService } from './services/todo.service';
 
+import { routing, appRoutingProviders } from './app.routing';
+import { UserComponent } from "./user/user.component";
+import {LocationStrategy, HashLocationStrategy} from "@angular/common";
+
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    routing,
   ],
   declarations: [
     AppComponent,
-    TodoComponent
+    TodoComponent,
+    UserComponent
   ],
-  providers: [ TodoService ],
+  providers: [ TodoService, appRoutingProviders, { provide: LocationStrategy, useClass: HashLocationStrategy} ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
