@@ -76,17 +76,19 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/login' })
 app.get('/login', (req, res) => {
     res.render('login');
 });
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+});
 
 
 app.use(function (req, res, next) {
-    console.log(req.isAuthenticated());
-    if (!req.isAuthenticated()) {
-        if (req.get('Content-Type') === 'application/json') {
-            return res.status(401).end();
-        } else {
-            res.redirect('/login');
-        }
-    } else {next();}
+    if (req.isAuthenticated()) return next();
+    if (req.get('Content-Type') === 'application/json') {
+        return res.status(401).end();
+    } else {
+        res.redirect('/login');
+    }
 });
 
 app.get('/', (req, res) => {
