@@ -1,14 +1,18 @@
 <add-item [todoItem]="todoItem" (addItem)="addItem($event)"></add-item>
 Items count: {{getFilteredItems().length}}
 <div class="filters">
-  <button [ngClass]="{active: filter === filters.All}" (click)="setFilter(filters.All)">All</button>
-  <button [ngClass]="{active: filter === filters.Done}" (click)="setFilter(filters.Done)">Done</button>
-  <button [ngClass]="{active: filter === filters.Undone}" (click)="setFilter(filters.Undone)">Undone</button>
+  <button class="btn" [ngClass]="{red: filter === filters.All}" (click)="setFilter(filters.All)">All</button>
+  <button class="btn" [ngClass]="{red: filter === filters.Done}" (click)="setFilter(filters.Done)">Done</button>
+  <button class="btn" [ngClass]="{red: filter === filters.Undone}" (click)="setFilter(filters.Undone)">Undone</button>
 </div>
-<ul>
-  <li *ngFor="let todo of getFilteredItems()">
-    <input type="checkbox" [checked]="todo.isDone" (click)="markSelected(todo)">
-    {{todo.text}}
-    <a href="#" (click)="removeItem(todo)">X</a>
+<ul class="collection">
+  <li class="collection-item" *ngFor="let todo of getFilteredItems()">
+    <div>
+      <input [id]="todo.id" type="checkbox" [checked]="todo.isDone" (click)="markSelected(todo)">
+      <label [htmlFor]="todo.id">{{todo.text}}</label>
+      <a class="secondary-content" href="#" (click)="removeItem(todo)">
+        <i class="material-icons">delete</i>
+      </a>
+    </div>
   </li>
 </ul>

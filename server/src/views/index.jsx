@@ -10,12 +10,26 @@ export default React.createClass({
                     <meta charset="utf-8" />
                     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
                     <title>Fancy Todo</title>
-                    <meta name="description" content="<%= webpackConfig.metadata.title %>" />
                     <base href="/" />
+                    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css" />
                 </head>
                 <body>
                     <my-app>
-                        Loading...
+                        <div class="preloader-wrapper active">
+                            <div class="spinner-layer spinner-red-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+
                     </my-app>
                     <script type="text/javascript" src="polyfills.bundle.js"></script>
                     <script type="text/javascript" src="vendor.bundle.js"></script>

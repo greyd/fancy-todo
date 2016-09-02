@@ -1,4 +1,7 @@
 <form class="add-item">
   <input name="todoItem" type="text" [(ngModel)]="todoItem" (keyup.enter)="add(todoItem)" />
-  <button type="button" (click)="add(todoItem)">Submit</button>
+  <button class="btn waves-effect waves-light" type="submit" (click)="add(todoItem)">
+    Submit
+    <i class="material-icons right">send</i>
+  </button>
 </form>
